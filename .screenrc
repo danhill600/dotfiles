@@ -1,0 +1,53 @@
+escape ^Aa
+
+shell /bin/zsh
+
+bind j focus down
+bind k focus up
+bind l focus right
+bind h focus left
+
+bindkey "^[OP" prev  #<F1> terminator
+bindkey "^[OQ" next  #<F2> terminator
+bindkey "^[OR" focus prev #<F3> terminator
+bindkey "^[OS" focus next #<F4> terminator ...
+
+
+bindkey "^[[15~" eval "split -v" "focus next" "windowlist -b"  #<F5>
+bindkey "^[[17~" eval split "focus next" "windowlist -b" #<F6>
+bindkey "^[[18~" fit  #<F7> 
+bindkey "^[[19~" eval title "stuff ^U" #<F8>
+bindkey "^[[20~" copy #<F9>
+
+backtick 101 1 0 /endo/scripts/artist.sh
+
+hardstatus alwayslastline 
+# from https://gist.github.com/ChrisWills/1337178
+hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
+
+
+shelltitle '' 
+
+bufferfile /endo/scratch/screen-exchange
+
+#copy screen  buffer into my x clipboard when I use space in the 
+#normal course of screen style copying
+bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec sh -c "xsel -i -b < /endo/scratch/screen-exchange"'
+
+# maybe it's better to unbind these first?  idk I saw it in some ppls screenrcs
+bind q
+bind s
+bind x
+bind X 
+bind r
+bind |
+
+bind q only
+bind s eval split "focus next" "windowlist -b"
+bind | eval "split -v" "focus next" "windowlist -b" 
+bind x remove 
+bind X meta
+bind ' ' windowlist -b 
+bind r exec renumberscreen.sh
+bind g exec covertoggle.sh
+bind u eval 'hardcopy .screen_hardcopy.txt' 'exec terminator -e geturls.sh'
